@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+from config import PAST_SALES_DATA_AVAILABLE,PAST_FORECAST_DATA_AVAILABLE
+
 def calculate_grouped_accuracy_metrics(merged_df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculates RMSE, MAE, MAPE, Bias, and WAPE for each SKU + Echelon_Type.
@@ -40,3 +42,6 @@ def calculate_grouped_accuracy_metrics(merged_df: pd.DataFrame) -> pd.DataFrame:
         })
 
     return pd.DataFrame(results)
+
+def data_availability_check():
+    return PAST_FORECAST_DATA_AVAILABLE and PAST_SALES_DATA_AVAILABLE

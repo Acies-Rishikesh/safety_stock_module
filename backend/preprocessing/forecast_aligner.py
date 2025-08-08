@@ -26,3 +26,6 @@ def align_forecast_to_actual(forecast_df: pd.DataFrame, actual_df: pd.DataFrame)
 
     # Final columns
     return merged[['sku_id', 'location_id', 'echelon_type', 'date', 'forecast', 'actual', 'lead_time']]
+
+
+

@@ -2,14 +2,18 @@ import os
 import pandas as pd
 import sys
 
-# Add module path
+    # Add module path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 from backend.preprocessing.input_cleaner import clean_and_prepare_inputs
 from backend.preprocessing.forecast_aligner import align_forecast_to_actual
 from backend.accuracy.metrics_calculator import calculate_grouped_accuracy_metrics
 
-# Load files
+
+
+
+    # Load files
 data_dir = os.path.join(os.path.dirname(__file__), "data")
 
 forecast_df = pd.read_csv(os.path.join(data_dir, "Forecast_Data.csv"))
