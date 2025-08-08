@@ -1,4 +1,5 @@
-from backend.safety_stock.rule_based_safety_stock import calculate_rule_based_safety_stock
+# from backend.safety_stock.rule_based_safety_stock import calculate_rule_based_safety_stock
+from ..backend.modules.rule_based import calculate_rule_based_safety_stock
 
 # Sample service level mapping (simulate UI choices)
 service_level_dict = {

@@ -1,16 +1,22 @@
 import pandas as pd
+
+
 def clean_and_prepare_inputs(forecast_df, actual_df, column_mapping):
-    # ✅ Rename forecast columns to standard
+    '''
+    Parameters: forecast_df, actual_df, column_mapping
+    This function takes 3 parameters [2 df , column mapping] 
+    '''
+    #  Rename forecast columns to standard
     forecast_df.rename(columns={
         column_mapping['sku_id']: 'sku_id',
         column_mapping['location_id']: 'location_id',
-        column_mapping['echelon_type']: 'echelon_type',  # ✅ REQUIRED
+        column_mapping['echelon_type']: 'echelon_type',  #  REQUIRED
         column_mapping['date']: 'date',
         column_mapping['forecast']: 'forecast',
         column_mapping['lead_time']: 'lead_time'
     }, inplace=True)
 
-    # ✅ Rename actual columns to standard
+    #  Rename actual columns to standard
     actual_df.rename(columns={
         column_mapping['sku_id']: 'sku_id',
         column_mapping['location_id']: 'location_id',
@@ -19,11 +25,11 @@ def clean_and_prepare_inputs(forecast_df, actual_df, column_mapping):
         column_mapping['actual']: 'actual'
     }, inplace=True)
 
-    # ✅ Drop missing essentials
+    #  Drop missing essentials
     forecast_df.dropna(subset=['sku_id', 'location_id', 'date', 'forecast', 'lead_time'], inplace=True)
     actual_df.dropna(subset=['sku_id', 'location_id', 'date', 'actual'], inplace=True)
 
-    # ✅ Convert types
+    #  Convert types
     forecast_df['date'] = pd.to_datetime(forecast_df['date'])
     actual_df['date'] = pd.to_datetime(actual_df['date'])
 
@@ -32,3 +38,7 @@ def clean_and_prepare_inputs(forecast_df, actual_df, column_mapping):
     actual_df['actual'] = pd.to_numeric(actual_df['actual'], errors='coerce')
 
     return forecast_df, actual_df
+
+
+def outliner_correction():
+    return ""
