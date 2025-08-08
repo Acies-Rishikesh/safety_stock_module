@@ -38,3 +38,7 @@ metrics_df = calculate_grouped_accuracy_metrics(aligned_df)
 
 # Show
 print(metrics_df.head())
+output_path = os.path.join(data_dir, "accuracy_metrics_output.xlsx")
+metrics_df.to_excel(output_path, index=False)
+
+print(f"Metrics saved to: {output_path}")
