@@ -1,7 +1,7 @@
-sku_id,echelon_type,lead_time,service_level,RMSE,MAE,MAPE (%),Bias,WAPE (%),n_samples,Selected_method
-SKU001,DC,11,0.95,8.51,6.85,4.8,0.42,4.84,52,Forecast-based SS
-SKU001,Store,12,0.95,9.74,7.92,6.96,0.12,6.95,52,Forecast-based SS
-SKU002,DC,14,0.95,12.02,10.25,5.12,-1.75,5.09,52,Hybrid
-SKU002,Store,16,0.95,9.34,7.4,5.62,0.02,5.67,52,Forecast-based SS
-SKU003,DC,7,0.95,7.89,5.77,4.8,0.42,4.89,52,Forecast-based SS
-SKU003,Store,9,0.95,9.19,7.37,6.03,0.06,5.97,52,Forecast-based SS
+sku_id,echelon_type,lead_time,service_level,RMSE,MAE,MAPE (%),Bias,WAPE (%),n_samples,std_dev_ss,rmse_ss,mae_ss,hybrid_with_no_var_ss,hybrid_with_var_ss,ml_ss,Selected_method
+SKU001,DC,11,0.95,8.51,6.85,4.8,0.42,4.84,52,,,,,,,Forecast-based SS
+SKU001,Store,12,0.95,9.74,7.92,6.96,0.12,6.95,52,,,,,,,Forecast-based SS
+SKU002,DC,14,0.95,12.02,10.25,5.12,-1.75,5.09,52,,,,,,,Hybrid
+SKU002,Store,16,0.95,9.34,7.4,5.62,0.02,5.67,52,,,,,,,Forecast-based SS
+SKU003,DC,7,0.95,7.89,5.77,4.8,0.42,4.89,52,,,,,,,Forecast-based SS
+SKU003,Store,9,0.95,9.19,7.37,6.03,0.06,5.97,52,,,,,,,Forecast-based SS

@@ -4,6 +4,7 @@ import pandas as pd
 
 def segmentation_function(metrics_df_original,PAST_SALES_DATA_AVAILABLE,PAST_FORECAST_DATA_AVAILABLE):
     metrics_df = metrics_df_original.copy()
+    metrics_df[["std_dev_ss","rmse_ss","mae_ss","hybrid_with_no_var_ss","hybrid_with_var_ss","ml_ss"]] = None
     if PAST_FORECAST_DATA_AVAILABLE and PAST_SALES_DATA_AVAILABLE:
         for i in range(len(metrics_df)):
             rmse_level,bias_level,mape_level = select_method(metrics_df.loc[i,"RMSE"],metrics_df.loc[i,"Bias"],metrics_df.loc[i,"MAPE (%)"])
