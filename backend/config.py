@@ -42,7 +42,8 @@ column_mapping = {
     "location_id": "Location_ID",
     "date": "Date",
     "lead_time": "Lead_Time_Days",
-    "echelon_type": "Echelon_Type"
+    "echelon_type": "Echelon_Type",
+    "service_level": "Service_Level"
 }
 
 #Flags

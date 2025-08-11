@@ -38,4 +38,6 @@ def segmenter_function_call(metrics_df,PAST_SALES_DATA_AVAILABLE,PAST_FORECAST_D
 
 
 
+
+
     

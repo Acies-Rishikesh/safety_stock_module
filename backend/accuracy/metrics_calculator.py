@@ -33,6 +33,7 @@ def calculate_grouped_accuracy_metrics(merged_df: pd.DataFrame) -> pd.DataFrame:
         results.append({
             'sku_id': sku,
             'echelon_type': echelon,
+            'Service_Level': group['service_level'].iloc[0] if 'service_level' in group.columns else 0.95,
             'RMSE': round(rmse, 2),
             'MAE': round(mae, 2),
             'MAPE (%)': round(mape, 2),

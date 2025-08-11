@@ -31,7 +31,7 @@ def fetch_service_level(row, service_level_dict, fallback_level):
     return fallback_level  # Final fallback
 
 
-def calculate_rule_based_safety_stock(
+def calculate_rule_based_safety_stock_without_variability(
     df: pd.DataFrame,
     service_level_dict: dict,
     default_service_level: float = 0.95
@@ -71,3 +71,5 @@ def calculate_rule_based_safety_stock(
     df['rule_based_ss'] = (df['z_score'] * df['demand_std'] * np.sqrt(df['lead_time'])).round(2)
 
     return df[['sku_id', 'echelon_type', 'region', 'lead_time', 'demand_std', 'service_level', 'z_score', 'rule_based_ss']]
+
+
