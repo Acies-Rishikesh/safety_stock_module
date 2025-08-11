@@ -7,6 +7,5 @@ cleaned_forecast, cleaned_actual = input_function_call()
 forecast_aligned_df = forecast_aligner_function_call(cleaned_forecast, cleaned_actual)
 metrics_df = metrics_calculator_function_call(forecast_aligned_df)
 segmented_df = segmenter_function_call(metrics_df,PAST_SALES_DATA_AVAILABLE,PAST_FORECAST_DATA_AVAILABLE)
-
-print(cleaned_forecast.head())
-print(forecast_aligned_df.head())
+# print(cleaned_forecast.head())
+# print(forecast_aligned_df.head())

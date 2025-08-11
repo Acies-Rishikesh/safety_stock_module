@@ -1,6 +1,6 @@
 import pandas as pd
-# import sys, os
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import sys, os
+path=sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 from config import forecast_path,actual_path,column_mapping
@@ -34,6 +34,8 @@ def segmenter_function_call(metrics_df,PAST_SALES_DATA_AVAILABLE,PAST_FORECAST_D
         return "Past data not available"
     segmented_df = segmentation_function(metrics_df,PAST_SALES_DATA_AVAILABLE,PAST_FORECAST_DATA_AVAILABLE)
     print(segmented_df.head())
+    segmented_df.to_csv("grouped_accuracy_metrics.csv", index=False)
+
     return segmented_df
 
 
