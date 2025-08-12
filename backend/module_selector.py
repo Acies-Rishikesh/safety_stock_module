@@ -1,5 +1,6 @@
 import pandas as pd
-from modules.rule_based import calculate_rule_based_safety_stock_without_variability
+# from modules.rule_based import calculate_rule_based_safety_stock_without_variability
+from modules.rule_based import calculate_rule_based_safety_stock
 from modules.rmse_based import calculate_mae_based_safety_stock,calculate_rmse_based_safety_stock
 from modules.hybrid_based import calculate_hybrid_based_safety_stock
 from modules.ml_based import calculate_ml_based_safety_stock
@@ -35,18 +36,18 @@ def run_safety_stock_selector(segmentation_df: pd.DataFrame, raw_forecast_df: pd
 
         # Select method
         if method.lower().startswith("rule"):
-            ss_value = calculate_rule_based_safety_stock_without_variability(sku_df, row)  # Pass only this SKU's DF + segmentation row
+            ss_value = calculate_rule_based_safety_stock(sku_df, row)  # Pass only this SKU's DF + segmentation row
             segmentation_df.loc[_,"std_dev_ss"] = ss_value
-        elif method.lower().startswith("rmse"):
-            ss_value = calculate_rmse_based_safety_stock(sku_df, row)
-            segmentation_df.loc[_,"rmse_ss"] = ss_value
-        elif method.lower().startswith("mae"):
-            ss_value = calculate_rmse_based_safety_stock(sku_df, row)
-            segmentation_df.loc[_,"mae_ss"] = ss_value
-        elif method.lower().startswith("hybrid"):
-            ss_value = calculate_hybrid_based_safety_stock(sku_df, row)
-            segmentation_df.loc[_,"hybrid_with_no_var_ss"] = ss_value["ss_no_var"]
-            segmentation_df.loc[_,"hybrid_with_var_ss"] = ss_value["ss_with_var"]
+        # elif method.lower().startswith("rmse"):
+        #     ss_value = calculate_rmse_based_safety_stock(sku_df, row)
+        #     segmentation_df.loc[_,"rmse_ss"] = ss_value
+        # elif method.lower().startswith("mae"):
+        #     ss_value = calculate_rmse_based_safety_stock(sku_df, row)
+        #     segmentation_df.loc[_,"mae_ss"] = ss_value
+        # elif method.lower().startswith("hybrid"):
+        #     ss_value = calculate_hybrid_based_safety_stock(sku_df, row)
+        #     segmentation_df.loc[_,"hybrid_with_no_var_ss"] = ss_value["ss_no_var"]
+        #     segmentation_df.loc[_,"hybrid_with_var_ss"] = ss_value["ss_with_var"]
         elif method.lower().startswith("ml"):
             ss_value = calculate_ml_based_safety_stock(sku_df, row)
             segmentation_df.loc[_,"ml_ss"] = ss_value

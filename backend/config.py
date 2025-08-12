@@ -30,8 +30,11 @@ data_dir = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
 data_dir = os.path.abspath(data_dir)
 
 #  File paths
-forecast_path = os.path.join(data_dir, "Past_Forecast_Data (1).csv")
-actual_path = os.path.join(data_dir, "Past_Sales_Data (2).csv")
+# forecast_path = os.path.join(data_dir, "Past_Forecast_Data (1).csv")
+# actual_path = os.path.join(data_dir, "Past_Sales_Data (2).csv")
+forecast_path = os.path.join(data_dir, "Past_Forecast_Data_v2.csv")
+actual_path = os.path.join(data_dir, "Past_Sales_Data_v2.csv")
+future_forecast_path=os.path.join(data_dir,"Future_Forecast_Data_v2.csv")
 
 column_mapping = {
     "forecast": "Forecasted_Demand",
