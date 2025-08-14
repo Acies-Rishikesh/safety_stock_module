@@ -13,46 +13,67 @@ def segmentation_function(metrics_df_original,PAST_SALES_DATA_AVAILABLE,PAST_FOR
     else:
         return "There are no past Data"
 
+# def select_method(rmse_pct, bias_pct, mape_pct):
+#      # RMSE levels
+#     rmse_level = "low" if rmse_pct <= 10 else "medium" if rmse_pct <= 20 else "high"
+#     # Bias levels
+#     bias_level = "low" if abs(bias_pct) <= 5 else "medium" if abs(bias_pct) <= 10 else "high"
+#     # MAPE levels
+#     mape_level = "low" if mape_pct <= 10 else "medium" if mape_pct <= 20 else "high"
+
+#     return rmse_level,bias_level,mape_level
+
+# def take_decision(rmse_level,bias_level,mape_level):
+
+#     # Decision rules
+#     if rmse_level == "high" or bias_level == "high":
+#         return "Rule-based SS"
+
+#     if rmse_level == "low" and bias_level == "low":
+#         if mape_level == "low" or mape_level == "medium":
+#             return "Forecast-based SS"
+#         else:
+#             return "Hybrid"
+
+#     if rmse_level == "low" and bias_level == "medium":
+#         if mape_level == "low":
+#             return "Hybrid"
+#         else:
+#             return "Rule-based SS"
+
+#     if rmse_level == "medium" and bias_level == "low":
+#         if mape_level == "low" or mape_level == "medium":
+#             return "Hybrid"
+#         else:
+#             return "Rule-based SS"
+
+#     if rmse_level == "medium" and bias_level == "medium":
+#         if mape_level == "low":
+#             return "Hybrid"
+#         else:
+#             return "Rule-based SS"
+
+#     return "Rule-based SS"
 def select_method(rmse_pct, bias_pct, mape_pct):
-     # RMSE levels
+    # RMSE levels
     rmse_level = "low" if rmse_pct <= 10 else "medium" if rmse_pct <= 20 else "high"
     # Bias levels
     bias_level = "low" if abs(bias_pct) <= 5 else "medium" if abs(bias_pct) <= 10 else "high"
     # MAPE levels
     mape_level = "low" if mape_pct <= 10 else "medium" if mape_pct <= 20 else "high"
 
-    return rmse_level,bias_level,mape_level
+    return rmse_level, bias_level, mape_level
 
-def take_decision(rmse_level,bias_level,mape_level):
 
-    # Decision rules
-    if rmse_level == "high" or bias_level == "high":
+def take_decision(rmse_tier, bias_tier, mape_tier):
+    if rmse_tier == "high" or bias_tier == "high":
         return "Rule-based SS"
-
-    if rmse_level == "low" and bias_level == "low":
-        if mape_level == "low" or mape_level == "medium":
-            return "Forecast-based SS"
-        else:
-            return "Hybrid"
-
-    if rmse_level == "low" and bias_level == "medium":
-        if mape_level == "low":
-            return "Hybrid"
-        else:
-            return "Rule-based SS"
-
-    if rmse_level == "medium" and bias_level == "low":
-        if mape_level == "low" or mape_level == "medium":
-            return "Hybrid"
-        else:
-            return "Rule-based SS"
-
-    if rmse_level == "medium" and bias_level == "medium":
-        if mape_level == "low":
-            return "Hybrid"
-        else:
-            return "Rule-based SS"
-
+    if rmse_tier == "low" and bias_tier == "low" and mape_tier in ("low","medium"):
+        return "Forecast-based SS"
+    if rmse_tier == "medium" and bias_tier == "low":
+        return "Hybrid"
+    if rmse_tier == "medium" and bias_tier == "medium":
+        return "Rule-based SS"
     return "Rule-based SS"
 
 
