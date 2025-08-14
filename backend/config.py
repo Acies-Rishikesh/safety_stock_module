@@ -1,20 +1,3 @@
-# import sys
-# import os
-
-# # Add backend to path
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# # Import the cleaning function
-# from preprocessing.input_cleaner import clean_and_prepare_inputs
-
-# # Define the correct path to test data folder
-# data_dir = os.path.join(os.path.dirname(__file__), "data","raw")
-
-# #  Print to verify file paths
-# forecast_path = os.path.join(data_dir, "Forecast_Data.csv")
-# actual_path = os.path.join(data_dir, "Actual_Sales_Data.csv")
-
-
 import sys
 import os
 

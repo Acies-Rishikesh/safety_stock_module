@@ -1,45 +1,82 @@
-# import numpy as np
-# from scipy.stats import norm
-# import pandas as pd
 
-# def calculate_rule_based_safety_stock_without_variability(sku_df: pd.DataFrame, row_data: pd.Series) -> float:
+# def calculate_rule_based_safety_stock(fc_row, seg_row, history_df=None):
 #     """
-#     sku_df: filtered data for a single SKU & Echelon
-#     row_data: segmentation row containing lead_time & service_level
+#     Calculate safety stock using only the future forecast row 
+#     (no historical data).
+
+#     Args:
+#         fc_row (pd.Series): Single row from future forecast DF
+#         seg_row (pd.Series): Row from segmentation_df (contains config info)
+#         history_df (ignored): Only present to keep signature compatible
+
+#     Returns:
+#         float: Safety Stock value
 #     """
+#     from scipy.stats import norm
+#     import numpy as np
 
-#     lt = row_data['lead_time']
-#     sl = row_data['service_level']
+#     # Lead time: prefer segmentation config, then from forecast row
+#     lt = seg_row.get('lead_time', fc_row.get('lead_time', 0))
 
-#     sigma_d = sku_df['actual'].std(ddof=0)  # demand variability
-#     avg_d = sku_df['actual'].mean()
+#     # Service level: prefer segmentation config, then from forecast row
+#     sl = seg_row.get('service_level', fc_row.get('service_level', 0.9))
 
+#     # Convert service level to Z-score
 #     z = norm.ppf(sl)
 
-#     # No lead time variability
-#     ss_no_var = z * sigma_d * np.sqrt(lt)
+#     # For this rule, std dev is taken as 0 (no variability) or based on forecast as proxy
+#     sigma_d = fc_row.get('forecast', 0) * 0.0  # if you want pure forecast quantity, change formula below
 
-#     # With lead time variability (optional)
-#     if 'lead_time' in sku_df.columns:
-#         sigma_lt = sku_df['lead_time'].std(ddof=0)
-#         ss_with_var = z * np.sqrt((sigma_d ** 2 * lt) + (sigma_lt ** 2 * avg_d ** 2))
-#     else:
-#         ss_with_var = None
+#     # EXAMPLE RULE: SS proportional to forecast and lead time
+#     # Here using: Z * forecast * sqrt(lead_time)
+#     sigma_d = fc_row.get('forecast', 0)
 
-#     return round(ss_no_var, 2)  # or return both if needed
+#     ss_value = z * sigma_d * np.sqrt(lt)
+
+#     return round(ss_value, 2)
 
 
-# --- RULE-BASED ---
-def calculate_rule_based_safety_stock(sku_df, row):
+import pandas as pd
+import numpy as np
+from scipy.stats import norm
+
+def calculate_rule_based_safety_stock_df(future_forecast_df: pd.DataFrame) -> pd.DataFrame:
     """
-    sku_df: historical actual demand data for SKU-echleon
-    row: contains lead_time and service_level
-    """
-    from scipy.stats import norm
-    import numpy as np
+    Calculate rule-based safety stock for each row in the future forecast dataset.
 
-    lt = row['lead_time']
-    sl = row['service_level']
-    sigma_d = sku_df['forecast'].std(ddof=0)
-    z = norm.ppf(sl)
-    return round(z * sigma_d * np.sqrt(lt), 2)
+    Args:
+        future_forecast_df (pd.DataFrame): Must contain:
+            ['sku_id', 'echelon_type', 'date', 'forecast', 'lead_time', 'service_level']
+            and optionally 'location_id'
+
+    Returns:
+        pd.DataFrame: Same as input with an extra 'rule_ss' column.
+    """
+    # Copy to avoid modifying original
+    df = future_forecast_df.copy()
+
+    # Ensure needed columns exist
+    required_cols = ['sku_id', 'echelon_type', 'date',
+                     'forecast', 'lead_time', 'service_level']
+    for col in required_cols:
+        if col not in df.columns:
+            raise ValueError(f"Missing required column in future_forecast_df: {col}")
+
+    # Calculate Z-score for each row from service level
+    df['z_score'] = df['service_level'].apply(lambda sl: norm.ppf(sl))
+
+    # Here, instead of actual demand stddev, use forecast as scale proxy
+    df['rule_ss'] = df.apply(
+        lambda r: round(r['z_score'] * r['forecast'] * np.sqrt(r['lead_time']), 2),
+        axis=1
+    )
+
+    # Drop temp col
+    df.drop(columns=['z_score'], inplace=True)
+
+    return df
+
+# Example usage:
+# future_forecast_df = pd.read_csv("future_forecast.csv")
+# result_df = calculate_rule_based_safety_stock_df(future_forecast_df)
+# print(result_df[['sku_id','location_id','echelon_type','date','forecast','rule_ss']])
