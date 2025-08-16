@@ -22,7 +22,9 @@ if "method_choice" not in st.session_state:
 if "intro_completed" not in st.session_state:
     st.session_state.intro_completed = False
 
+
 def set_config_flags():
+    """Update backend.config flags from session state."""
     has_past_bool = bool(st.session_state.has_past)
     config.PAST_SALES_DATA_AVAILABLE = has_past_bool
     config.PAST_FORECAST_DATA_AVAILABLE = has_past_bool
@@ -30,6 +32,7 @@ def set_config_flags():
     config.BOTH_RULE_ML = (choice == "ML + Rule-based")
     config.ONLY_ML_BASED = (choice == "Only ML")
     config.ONLY_RULE_BASED = (choice == "Only Rule-based")
+
 
 # ---------- Step 1 ----------
 if st.session_state.wizard_step == 1:
@@ -48,7 +51,6 @@ if st.session_state.wizard_step == 1:
             if st.session_state.has_past is None:
                 st.warning("Please select Yes or No.")
             else:
-                set_config_flags()
                 st.session_state.wizard_step = 2
                 st.rerun()
 
@@ -59,7 +61,10 @@ elif st.session_state.wizard_step == 2:
     if st.session_state.has_past:
         st.session_state.method_choice = st.radio(
             "Choose a method:",
-            options=["ML + Rule-based", "Only ML", "Only Rule-based"]
+            options=["ML + Rule-based", "Only ML", "Only Rule-based"],
+            index=["ML + Rule-based", "Only ML", "Only Rule-based"].index(
+                st.session_state.method_choice
+            ) if st.session_state.method_choice else 0
         )
     else:
         st.session_state.method_choice = "Only Rule-based"
@@ -78,9 +83,11 @@ elif st.session_state.wizard_step == 2:
             if st.session_state.has_past and not st.session_state.method_choice:
                 st.warning("Please select a method.")
             else:
+                # 🔑 Update backend flags here
                 set_config_flags()
                 st.session_state.intro_completed = True  
                 try:
                     st.switch_page("pages/2_Data_Upload.py")
                 except Exception:
                     st.success(" Go to **Step 2: Data Upload** from the sidebar.")
+

@@ -1,24 +1,6 @@
-import sys
-import os
+# backend/config.py
 
-# Add backend to path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# Import the cleaning function
-from backend.preprocessing.input_cleaner import clean_and_prepare_inputs
-
-# Correct path to raw data folder
-# data_dir = os.path.join(os.path.dirname(__file__), "data", "raw")
-data_dir = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
-data_dir = os.path.abspath(data_dir)
-
-#  File paths
-# forecast_path = os.path.join(data_dir, "Past_Forecast_Data (1).csv")
-# actual_path = os.path.join(data_dir, "Past_Sales_Data (2).csv")
-forecast_path = os.path.join(data_dir, "Past_Forecast_Data_v2.csv")
-actual_path = os.path.join(data_dir, "Past_Sales_Data_v2.csv")
-future_forecast_path=os.path.join(data_dir,"Future_Forecast_Data_v2.csv")
-
+# Column mapping
 column_mapping = {
     "forecast": "Forecasted_Demand",
     "actual": "Actual_Sales",
@@ -30,10 +12,32 @@ column_mapping = {
     "service_level": "Service_Level"
 }
 
-#Flags
-PAST_SALES_DATA_AVAILABLE = True
-PAST_FORECAST_DATA_AVAILABLE = True
-ONLY_RULE_BASED = True
-ONLY_ML_BASED = True
-BOTH_RULE_ML = True
+# Flags (default)
+PAST_SALES_DATA_AVAILABLE = False
+PAST_FORECAST_DATA_AVAILABLE = False
+ONLY_RULE_BASED = False
+ONLY_ML_BASED = False
+BOTH_RULE_ML = False
 
+
+def set_config_flags(has_past: bool, method_choice: str):
+    """Update global config flags from Intro page selection."""
+    global PAST_SALES_DATA_AVAILABLE, PAST_FORECAST_DATA_AVAILABLE
+    global ONLY_RULE_BASED, ONLY_ML_BASED, BOTH_RULE_ML
+
+    # past data flags
+    PAST_SALES_DATA_AVAILABLE = has_past
+    PAST_FORECAST_DATA_AVAILABLE = has_past
+
+    # reset
+    ONLY_RULE_BASED = False
+    ONLY_ML_BASED = False
+    BOTH_RULE_ML = False
+
+    # method flags
+    if method_choice == "Only Rule-based":
+        ONLY_RULE_BASED = True
+    elif method_choice == "Only ML":
+        ONLY_ML_BASED = True
+    elif method_choice == "ML + Rule-based":
+        BOTH_RULE_ML = True
