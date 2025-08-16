@@ -1,0 +1,12 @@
+# Ignore Python cache files and folders
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Excel files
+*.xlsx
+*.xls
+
+# Ignore CSV files
+*.csv
