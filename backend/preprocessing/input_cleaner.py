@@ -14,9 +14,15 @@ def clean_and_prepare_inputs(forecast_df, actual_df,future_forecast_df, column_m
     """
 
     # --- 1. Normalize all column names in the DataFrames ---
-    forecast_df.columns = forecast_df.columns.str.strip().str.lower()
-    actual_df.columns = actual_df.columns.str.strip().str.lower()
-    future_forecast_df.columns = future_forecast_df.columns.str.strip().str.lower()
+# Ensure all column names are strings
+    # Force columns to plain Python strings
+    forecast_df.columns = [str(col).strip().lower() for col in forecast_df.columns]
+
+    # Do the same for others if present
+    actual_df.columns = [str(col).strip().lower() for col in actual_df.columns]
+    future_forecast_df.columns = [str(col).strip().lower() for col in future_forecast_df.columns]
+
+
 
     # --- 2. Normalize the mapping dictionary (case-insensitive) ---
     column_mapping = {k.lower(): v.strip().lower() for k, v in column_mapping.items()}
