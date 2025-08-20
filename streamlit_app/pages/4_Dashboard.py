@@ -79,6 +79,10 @@ avg_ss_per_sku = (
 sku_cnt = int(baseline_df["sku_id"].nunique())
 loc_cnt = int(baseline_df["location_id"].nunique())
 ech_cnt = int(baseline_df["echelon_type"].nunique())
+date_min = baseline_df["date"].min().strftime("%Y-%m-%d") if "date" in baseline_df.columns else "N/A"
+date_max = baseline_df["date"].max().strftime("%Y-%m-%d") if "date" in baseline_df.columns else "N/A"
+date_range_str = f"{date_min} to {date_max}"
+
 
 # --- Uniform KPI card style ---
 kpi_style = """
@@ -173,6 +177,11 @@ st.markdown(f"""
     <div class="kpi-label">Avg SS per SKU</div>
     <div class="kpi-value">{avg_ss_per_sku:,.2f}</div>
   </div>
+    <div class="kpi-card">
+    <div class="kpi-label">Date Range</div>
+    <div class="kpi-value">{date_range_str}</div>
+  </div>
+
 </div>
 """, unsafe_allow_html=True)
 
@@ -366,3 +375,4 @@ elif chart_option == "Baseline vs Scenarios Trend Over Time":
             )
         fig_t.update_layout(xaxis_title="Date", yaxis_title="Safety Stock", hovermode="x unified")
         st.plotly_chart(fig_t, use_container_width=True)
+
